@@ -20,7 +20,7 @@ public class FileController {
     /**
      * 新增一个文件
      * @param file
-     * @return
+     * @return 返回 url
      */
     @PostMapping("insertFile")
     public Map<String,String> insertFile(MultipartFile file) throws IOException {
@@ -33,7 +33,7 @@ public class FileController {
     /**
      * 新增多个文件
      * @param files
-     * @return
+     * @return 返回 String[] urls
      */
     @PostMapping("insertFiles")
     public Map<String,String[]> insertFiles(MultipartFile[] files) throws IOException {

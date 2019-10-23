@@ -30,11 +30,13 @@ public class FileServiceImpl implements FileService {
         //根据文件ID，生成新的文件名
         String fileName = FileIdUtils.getFileName(file.getOriginalFilename(), fileId);
         //存储文件
+        //TODO 后期使用 消息队列 转存 到 文件服务器
         FileStoreUtils.storeFileByName(file, "D://aa", fileName);
 
         //封装信息
         FileInfo fileInfo = FileInfoUtils.packFileInfo(file);
         fileInfo.setFileId(fileId);
+        //TODO url 使用 存储在文件服务器上的 url
         fileInfo.setFileUrl("D://aa//" + fileName);
         //存储到数据库
         fileDao.insertFileInfo(fileInfo);
@@ -53,15 +55,18 @@ public class FileServiceImpl implements FileService {
         //生成文件名
         String[] fileNames = FileIdUtils.getFileNames(files);
         //存储文件
+        //TODO 后期使用 消息队列 转存 到 文件服务器
         FileStoreUtils.storeFilesByNames(files,"D://aa",fileNames);
 
         //生成信息
+        //TODO url 使用 存储在文件服务器上的 url
         String[] fileUrls = new String[files.length];
         for (int i = 0; i < fileUrls.length; i++) {
             fileUrls[i] = "D://aa//" + fileNames[i];
         }
-        FileInfo[] fileInfos = FileInfoUtils.packFileInfos(files,fileId,fileUrls);
 
+        //装配信息
+        FileInfo[] fileInfos = FileInfoUtils.packFileInfos(files,fileId,fileUrls);
         fileDao.insertFileInfos(fileInfos);
         return fileUrls;
     }
