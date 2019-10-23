@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsm.dao.FileDao">
+    <insert id="insertFileInfo" parameterType="FileInfo">
+        insert into file_info
+        (file_id, file_name, file_url, file_size,
+        create_user, create_time)
+        values
+        (#{fileId},#{fileName},#{fileUrl},#{fileSize},
+        1,#{createTime})
+    </insert>
+</mapper>
