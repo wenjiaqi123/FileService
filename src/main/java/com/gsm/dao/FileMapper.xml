@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gsm.dao.FileDao">
+    <!--插入一条文件信息-->
     <insert id="insertFileInfo" parameterType="FileInfo">
         insert into file_info
         (file_id, file_name, file_url, file_size,
@@ -10,5 +11,17 @@
         values
         (#{fileId},#{fileName},#{fileUrl},#{fileSize},
         1,#{createTime})
+    </insert>
+
+    <!--插入多条文件信息-->
+    <insert id="insertFileInfos" parameterType="FileInfo">
+        insert into file_info
+        (file_id, file_name, file_url, file_size,
+        create_user, create_time)
+        values
+        <foreach collection="array" item="i" separator=",">
+            (#{i.fileId},#{i.fileName},#{i.fileUrl},#{i.fileSize},
+            1,#{i.createTime})
+        </foreach>
     </insert>
 </mapper>

@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.UUID;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("file")
@@ -22,9 +23,11 @@ public class FileController {
      * @return
      */
     @PostMapping("insertFile")
-    public String insertFile(MultipartFile file) throws IOException {
+    public Map<String,String> insertFile(MultipartFile file) throws IOException {
         String url = fileService.insertFile(file);
-        return url;
+        Map<String,String> map = new HashMap<>(16);
+        map.put("url",url);
+        return map;
     }
 
     /**
@@ -33,7 +36,10 @@ public class FileController {
      * @return
      */
     @PostMapping("insertFiles")
-    public String insertFiles(MultipartFile[] files){
-        return "ss";
+    public Map<String,String[]> insertFiles(MultipartFile[] files) throws IOException {
+        String[] urls = fileService.insertFiles(files);
+        Map<String,String[]> map = new HashMap<>(16);
+        map.put("urls",urls);
+        return map;
     }
 }

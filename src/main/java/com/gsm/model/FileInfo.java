@@ -18,8 +18,6 @@ public class FileInfo {
      */
     private String fileId;
 
-    private String fileRealName;
-
     private String fileName;
 
     private String fileUrl;

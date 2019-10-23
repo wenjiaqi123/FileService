@@ -9,7 +9,7 @@ import java.util.UUID;
  */
 public class FileIdUtils {
     /**
-     * 获取文件Id
+     * 生成文件Id
      *
      * @return
      */
@@ -33,7 +33,24 @@ public class FileIdUtils {
     }
 
     /**
+     * 生成文件名
+     * @param files
+     * @return
+     */
+    public static String[] getFileNames(MultipartFile[] files) {
+        int length = files.length;
+        String[] fileNames = new String[length];
+        for (int i = 0; i < length; i++) {
+            String originalFilename = files[i].getOriginalFilename();
+            String fileSuffix = FileIdUtils.getFileSuffix(originalFilename);
+            fileNames[i] = FileIdUtils.getFileId() + fileSuffix;
+        }
+        return fileNames;
+    }
+
+    /**
      * 获取文件名后缀
+     * 示例：证书.jpg  →  .jpg
      * @param originalFileName 文件名
      * @return
      */
@@ -55,4 +72,6 @@ public class FileIdUtils {
         String fileSuffix = FileIdUtils.getFileSuffix(originalFilename);
         return fileSuffix;
     }
+
+
 }
