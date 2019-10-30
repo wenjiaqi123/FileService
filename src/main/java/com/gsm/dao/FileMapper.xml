@@ -13,6 +13,13 @@
         1,#{createTime})
     </insert>
 
+    <!--查询文件信息-->
+    <select id="selectFileInfo" parameterType="String" resultType="FileInfo">
+        select t.*
+        from file_info t
+        where t.file_id = #{fileId} and t.status = 1
+    </select>
+
     <!--插入多条文件信息-->
     <insert id="insertFileInfos" parameterType="FileInfo">
         insert into file_info
@@ -24,4 +31,11 @@
             1,#{i.createTime})
         </foreach>
     </insert>
+
+    <!--查询文件信息-->
+    <select id="selectFileInfos" parameterType="String" resultType="FileInfo">
+        select t.*
+        from  file_info t
+        where t.file_id = #{fileId} and t.status = 1
+    </select>
 </mapper>

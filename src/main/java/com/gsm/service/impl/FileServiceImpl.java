@@ -27,6 +27,17 @@ public class FileServiceImpl implements FileService {
     public String insertFile(MultipartFile file) throws IOException {
         //生成文件ID
         String fileId = FileIdUtils.getFileId();
+        String fileUrl = insertFile(file, fileId);
+        return fileUrl;
+    }
+
+    /**
+     * 存储单个文件
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    public String insertFile(MultipartFile file,String fileId) throws IOException {
         //根据文件ID，生成新的文件名
         String fileName = FileIdUtils.getFileName(file.getOriginalFilename(), fileId);
         //存储文件
@@ -43,6 +54,17 @@ public class FileServiceImpl implements FileService {
         return fileInfo.getFileUrl();
     }
 
+    @Override
+    public FileInfo insertFileGetAllInfo(MultipartFile file) throws IOException {
+        //生成文件ID
+        String fileId = FileIdUtils.getFileId();
+        //转存文件，插入数据库
+        insertFile(file,fileId);
+        //查询文件信息
+        FileInfo info = fileDao.selectFileInfo(fileId);
+        return info;
+    }
+
     /**
      * 存储多个文件
      * @param files
@@ -52,6 +74,19 @@ public class FileServiceImpl implements FileService {
     public String[] insertFiles(MultipartFile[] files) throws IOException {
         //生成文件ID
         String fileId = FileIdUtils.getFileId();
+        String[] fileUrls = insertFiles(files, fileId);
+        return fileUrls;
+    }
+
+    /**
+     * 转存文件
+     * 插入数据库
+     * @param files
+     * @param fileId
+     * @return 文件Urls
+     * @throws IOException
+     */
+    private String[] insertFiles(MultipartFile[] files,String fileId) throws IOException {
         //生成文件名
         String[] fileNames = FileIdUtils.getFileNames(files);
         //存储文件
@@ -69,5 +104,24 @@ public class FileServiceImpl implements FileService {
         FileInfo[] fileInfos = FileInfoUtils.packFileInfos(files,fileId,fileUrls);
         fileDao.insertFileInfos(fileInfos);
         return fileUrls;
+    }
+
+    /**
+     * 转存文件
+     * 插入数据库
+     * 返回文件全部信息
+     * @param files
+     * @return
+     * @throws IOException
+     */
+    @Override
+    public FileInfo[] insertFilesGetAllInfos(MultipartFile[] files) throws IOException {
+        //生成文件ID
+        String fileId = FileIdUtils.getFileId();
+        //转存文件，插入数据库
+        insertFiles(files,fileId);
+        //查询文件信息
+        FileInfo[] infos = fileDao.selectFileInfos(fileId);
+        return infos;
     }
 }
